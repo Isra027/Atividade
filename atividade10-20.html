@@ -1,0 +1,471 @@
+//--------------10
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>ClassList Toggle</title>
+
+    <style>
+        .destaque {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+    <p>Clique em mim.</p>
+    <p>Eu também.</p>
+
+    <script>
+        const paragrafos = document.querySelectorAll("p");
+
+        paragrafos.forEach(function(paragrafo) {
+            paragrafo.addEventListener("click", function() {
+                paragrafo.classList.toggle("destaque");
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+//--------------11/12
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de itens</title>
+</head>
+<body>
+
+    <input type="text" id="item">
+
+    <button id="btn-adicionar">Adicionar</button>
+
+    <ul id="lista"></ul>
+
+    <script>
+        const campo = document.getElementById("item");
+        const botao = document.getElementById("btn-adicionar");
+        const lista = document.getElementById("lista");
+
+        botao.addEventListener("click", function() {
+            const texto = campo.value.trim();
+
+            if (texto === "") {
+                return;
+            }
+
+            const li = document.createElement("li");
+            li.textContent = texto + " ";
+
+            const botaoRemover = document.createElement("button");
+            botaoRemover.textContent = "x";
+
+            botaoRemover.addEventListener("click", function() {
+                li.remove();
+            });
+
+            li.appendChild(botaoRemover);
+            lista.appendChild(li);
+
+            campo.value = "";
+        });
+    </script>
+
+</body>
+</html>
+
+//--------------13
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Contador</title>
+</head>
+<body>
+
+    <p id="valor">0</p>
+
+    <button id="btn-menos">-</button>
+    <button id="btn-mais">+</button>
+    <button id="btn-zerar">Zerar</button>
+
+    <script>
+        let contador = 0;
+
+        const valor = document.getElementById("valor");
+
+        document.getElementById("btn-mais").addEventListener("click", function() {
+            contador++;
+            valor.textContent = contador;
+        });
+
+        document.getElementById("btn-menos").addEventListener("click", function() {
+            if (contador > 0) {
+                contador--;
+            }
+            valor.textContent = contador;
+        });
+
+        document.getElementById("btn-zerar").addEventListener("click", function() {
+            contador = 0;
+            valor.textContent = contador;
+        });
+    </script>
+
+</body>
+</html>
+
+//--------------14
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Contador de caracteres</title>
+
+    <style>
+        .excedeu {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <textarea id="mensagem"></textarea>
+
+    <p id="contagem">0/140</p>
+
+    <button id="btn-publicar">Publicar</button>
+
+    <script>
+        const mensagem = document.getElementById("mensagem");
+        const contagem = document.getElementById("contagem");
+        const botao = document.getElementById("btn-publicar");
+
+        mensagem.addEventListener("input", function() {
+            const quantidade = mensagem.value.length;
+
+            contagem.textContent = quantidade + "/140";
+
+            if (quantidade > 140) {
+                contagem.classList.add("excedeu");
+                botao.disabled = true;
+            } else {
+                contagem.classList.remove("excedeu");
+                botao.disabled = false;
+            }
+        });
+    </script>
+
+</body>
+</html>
+
+//--------------15
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Identificar tecla</title>
+</head>
+<body>
+
+    <p id="tecla">-</p>
+
+    <script>
+        const elemento = document.getElementById("tecla");
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === " ") {
+                elemento.textContent = "Espaço";
+            } else {
+                elemento.textContent = event.key;
+            }
+        });
+    </script>
+
+</body>
+</html>
+
+//--------------16
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de alunos</title>
+</head>
+<body>
+
+    <ul id="lista-alunos"></ul>
+
+    <script>
+        const alunos = [
+            { nome: "Ana", nota: 8.5 },
+            { nome: "Bruno", nota: 6 },
+            { nome: "Carla", nota: 9.5 },
+            { nome: "Diego", nota: 4.5 },
+        ];
+
+        function renderizar(lista) {
+            const resultado = lista.map(function(aluno) {
+                const situacao = aluno.nota >= 7 ? "Aprovado" : "Reprovado";
+
+                return `<li>${aluno.nome} - ${situacao}</li>`;
+            }).join("");
+
+            document.getElementById("lista-alunos").innerHTML = resultado;
+        }
+
+        renderizar(alunos);
+    </script>
+
+</body>
+</html>
+
+//--------------17
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de IMC</title>
+</head>
+<body>
+
+    <form id="form-imc">
+
+        <input type="number" id="peso" step="0.1" placeholder="Digite seu peso (kg)" required>
+
+        <input type="number" id="altura" step="0.01" placeholder="Digite sua altura (m)" required>
+
+        <button type="submit">Calcular</button>
+
+    </form>
+
+    <p id="resultado"></p>
+
+    <script>
+        const formulario = document.getElementById("form-imc");
+        const resultado = document.getElementById("resultado");
+
+        formulario.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const peso = Number(document.getElementById("peso").value);
+            const altura = Number(document.getElementById("altura").value);
+
+            if (peso <= 0 || altura <= 0) {
+                resultado.textContent = "Informe valores válidos.";
+                return;
+            }
+
+            const imc = peso / (altura * altura);
+
+            let classificacao;
+
+            if (imc < 18.5) {
+                classificacao = "Abaixo do peso";
+            } else if (imc < 25) {
+                classificacao = "Peso normal";
+            } else if (imc < 30) {
+                classificacao = "Sobrepeso";
+            } else {
+                classificacao = "Obesidade";
+            }
+
+            resultado.textContent =
+                "Seu IMC é " + imc.toFixed(1) + " (" + classificacao + ")";
+        });
+    </script>
+
+</body>
+</html>
+
+//--------------18
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário de Cadastro</title>
+</head>
+<body>
+
+    <form id="form-cadastro">
+
+        <input type="password" id="senha" placeholder="Digite sua senha">
+
+        <input type="password" id="confirmacao" placeholder="Confirme sua senha">
+
+        <button type="submit">Cadastrar</button>
+
+    </form>
+
+    <p id="mensagem"></p>
+
+    <script>
+        const formulario = document.getElementById("form-cadastro");
+        const senha = document.getElementById("senha");
+        const confirmacao = document.getElementById("confirmacao");
+        const mensagem = document.getElementById("mensagem");
+
+        formulario.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            if (senha.value.length < 8) {
+                mensagem.textContent = "A senha deve ter pelo menos 8 caracteres.";
+                return;
+            }
+
+            if (senha.value !== confirmacao.value) {
+                mensagem.textContent = "As senhas não são iguais.";
+                return;
+            }
+
+            mensagem.textContent = "Cadastro realizado!";
+
+            formulario.reset();
+        });
+    </script>
+
+</body>
+</html>
+
+//--------------19
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Saudação com LocalStorage</title>
+</head>
+<body>
+
+    <p id="saudacao"></p>
+
+    <form id="form-nome">
+        <input type="text" id="nome" placeholder="Digite seu nome">
+        <button type="submit">Salvar</button>
+    </form>
+
+    <script>
+        const saudacao = document.getElementById("saudacao");
+        const formulario = document.getElementById("form-nome");
+        const campoNome = document.getElementById("nome");
+
+        // Verifica se já existe um nome salvo
+        const nomeSalvo = localStorage.getItem("nome");
+
+        if (nomeSalvo) {
+            saudacao.textContent = "Olá de novo, " + nomeSalvo + "!";
+            formulario.hidden = true;
+        }
+
+        // Salva o nome ao enviar o formulário
+        formulario.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const nome = campoNome.value.trim();
+
+            if (nome === "") {
+                return;
+            }
+
+            localStorage.setItem("nome", nome);
+
+            saudacao.textContent = "Olá, " + nome + "!";
+        });
+    </script>
+
+</body>
+</html>
+
+//--------------20
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Carregar usuários</title>
+</head>
+<body>
+
+    <button id="btn-carregar">Carregar usuários</button>
+
+    <p id="status"></p>
+
+    <table id="tabela" border="1" hidden>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Cidade</th>
+                <th>Empresa</th>
+            </tr>
+        </thead>
+
+        <tbody></tbody>
+    </table>
+
+    <script>
+        const botao = document.getElementById("btn-carregar");
+        const status = document.getElementById("status");
+        const tabela = document.getElementById("tabela");
+        const tbody = tabela.querySelector("tbody");
+
+        async function carregarUsuarios() {
+            status.textContent = "Carregando...";
+            tabela.hidden = true;
+            tbody.innerHTML = "";
+
+            try {
+                const resposta = await fetch(
+                    "https://jsonplaceholder.typicode.com/users"
+                );
+
+                if (!resposta.ok) {
+                    throw new Error("Erro ao buscar usuários");
+                }
+
+                const usuarios = await resposta.json();
+
+                if (usuarios.length === 0) {
+                    status.textContent = "Nenhum usuário encontrado.";
+                    return;
+                }
+
+                usuarios.forEach(function(usuario) {
+                    const tr = document.createElement("tr");
+
+                    const nome = document.createElement("td");
+                    nome.textContent = usuario.name;
+
+                    const email = document.createElement("td");
+                    email.textContent = usuario.email;
+
+                    const cidade = document.createElement("td");
+                    cidade.textContent = usuario.address.city;
+
+                    const empresa = document.createElement("td");
+                    empresa.textContent = usuario.company.name;
+
+                    tr.appendChild(nome);
+                    tr.appendChild(email);
+                    tr.appendChild(cidade);
+                    tr.appendChild(empresa);
+
+                    tbody.appendChild(tr);
+                });
+
+                tabela.hidden = false;
+
+                status.textContent =
+                    usuarios.length + " usuários carregados.";
+
+            } catch (erro) {
+                status.textContent =
+                    "Não foi possível carregar os usuários.";
+            }
+        }
+
+        botao.addEventListener("click", carregarUsuarios);
+    </script>
+
+</body>
+</html>

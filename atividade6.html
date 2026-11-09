@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <style>
+        .erro{
+            color: #e63946;
+            font-size: .85em;
+            display: block;
+        }
+        input.invalido,
+        textarea.invalido {
+            border-color: #e63946;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="form-contato" novalidate>
+        <label for="nome">Nome</label>
+        <input id="nome" name="nome">
+        <span class="erro" id="erro-nome"></span>
+
+        <label for="email">E-Mail</label>
+        <input id="email" type="email">
+        <span class="erro" id="erro-email"></span>
+
+        <p id="msg-sucesso" hidden>
+            Mensagem enviada com sucesso.
+        </p>
+        <button>Enviar</button>
+    </form>
+
+    <script>
+        function mostrarErro(sel, msg) {
+            const campo = form.querySelector(sel);
+            campo.classList.add("invalido");
+            form.querySelector(`#erro-${campo.id}`)
+                .textContent = msg;
+        }
+        function limparErros(){
+            form.querySelectorAll(".erro")
+                .forEach(el => el.textContent = "");
+            form.querySelectorAll(".invalido")
+                .forEach(el => el.classList
+                    .remove("invalido"));
+        }
+        const form = document.querySelector("#form-contato");
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            limparErros();
+            let valido = true;
+
+            const nome = form.querySelector("#nome").value.trim();
+            const email = form.querySelector("#email").value.trim();
+
+            if (nome.length < 2) {
+                mostrarErro("#nome", "Mínimo 2 caracteres.");
+                valido = false;
+            }
+            if (!regexEmail.test(email)){
+                mostrarErro("#email", "E-mail inválido.");
+                valido = false;
+            }
+            if (!valido) return;
+
+            document.querySelector("#msg-sucesso")
+                .hidden = false;
+            
+            console.log({nome, email});
+            form.reset();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+</head>
+<body>
+
+    <h1 id="titulo">Olá, turma!</h1>
+
+    <button id="btn-trocar">Trocar título</button>
+
+    <script>
+        const botao = document.getElementById("btn-trocar");
+
+        botao.addEventListener("click", function() {
+            document.getElementById("titulo").textContent = "JavaScript funcionando!";
+        });
+    </script>
+
+</body>
+</html>
